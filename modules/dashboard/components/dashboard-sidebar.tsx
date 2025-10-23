@@ -82,8 +82,8 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/dashboard"} tooltip="Dashboard">
-                <Link href="/dashboard">
+              <SidebarMenuButton asChild isActive={pathname === "/home/dashboard"} tooltip="Dashboard">
+                <Link href="/home/dashboard">
                   <LayoutDashboard className="h-4 w-4" />
                   <span>Dashboard</span>
                 </Link>

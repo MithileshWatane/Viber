@@ -5,7 +5,7 @@
  */
 
 export const publicRoutes: string[] = [
-   "/home"
+   "/"
 ]
 
 /**
@@ -15,7 +15,7 @@ export const publicRoutes: string[] = [
  */
 
 export const protectedRoutes: string[] = [
-    "/",
+    "/home",
     
 ]
 
@@ -38,4 +38,4 @@ export const authRoutes: string[] = [
 
 export const apiAuthPrefix: string = "/api/auth"
 
-export const DEFAULT_LOGIN_REDIRECT = "/"; // Changed to redirect to home page after login
+export const DEFAULT_LOGIN_REDIRECT = "/home/dashboard"; // Changed to redirect to home page after login

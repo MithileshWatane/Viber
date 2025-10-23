@@ -23,9 +23,9 @@ export default function Home() {
         It is designed to help you write, debug, and optimize your code
         efficiently.
       </p>
-      <Link href={"/dashboard"}>
+      <Link href={"/home/dashboard"}>
         <Button variant={"brand"} className="mb-4" size={"lg"}>
-          Get Started
+          Sign in
           <ArrowUpRight className="w-3.5 h-3.5" />
         </Button>
       </Link>

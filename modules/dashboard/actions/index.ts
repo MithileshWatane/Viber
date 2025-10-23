@@ -35,7 +35,7 @@ export const toggleStarMarked = async (
       });
     }
 
-     revalidatePath("/dashboard");
+     revalidatePath("/home/dashboard");
     return { success: true, isMarked: isChecked };
   } catch (error) {
        console.error("Error updating problem:", error);
@@ -102,7 +102,7 @@ export const deleteProjectById = async (id: string) => {
         id,
       },
     });
-    revalidatePath("/dashboard");
+    revalidatePath("/home/dashboard");
   } catch (error) {
     console.log(error);
   }
@@ -119,7 +119,7 @@ export const editProjectById = async (
       },
       data: data,
     });
-    revalidatePath("/dashboard");
+    revalidatePath("/home/dashboard");
   } catch (error) {
     console.log(error);
   }
@@ -146,7 +146,7 @@ export const duplicateProjectById = async (id: string) => {
       },
     });
 
-    revalidatePath("/dashboard");
+    revalidatePath("/home/dashboard");
     return duplicatedPlayground;
   } catch (error) {
     console.error("Error duplicating project:", error);
