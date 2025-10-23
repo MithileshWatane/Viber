@@ -113,7 +113,7 @@ const WebContainerPreview = ({
           );
         }
 
-        // @ts-ignore
+        // @ts-expect-error
         const files = transformToWebContainerFormat(templateData);
         setLoadingState((prev) => ({
           ...prev,

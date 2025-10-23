@@ -543,7 +543,7 @@ export const PlaygroundEditor = ({
         onChange={(value) => onContentChange(value || "")}
         onMount={handleEditorDidMount}
         language={activeFile ? getEditorLanguage(activeFile.fileExtension || "") : "plaintext"}
-        // @ts-ignore
+        // @ts-expect-error
         options={defaultEditorOptions}
       />
     </div>
