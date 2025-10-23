@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 
@@ -16,7 +17,7 @@ interface UsePlaygroundReturn {
   isLoading: boolean;
   error: string | null;
   loadPlayground: () => Promise<void>;
-  saveTemplateData: (data: TemplateFolder) => Promise<void>;
+ saveTemplateData: (data: TemplateFolder) => Promise<any>;
 }
 
 export const usePlayground = (id: string): UsePlaygroundReturn => {
@@ -36,6 +37,7 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
 
       const data = await getPlaygroundById(id);
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //   @ts-expect-error
       setPlaygroundData(data);
       const rawContent = data?.templateFiles?.[0]?.content;
@@ -80,17 +82,38 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
 
 
 
-  const saveTemplateData = useCallback(async(data:TemplateFolder)=>{
-    try {
-          await SaveUpdatedCode(id, data);
-      setTemplateData(data);
-      toast.success("Changes saved successfully");
-    } catch (error) {
-         console.error("Error saving template data:", error);
-      toast.error("Failed to save changes");
-      throw error;
+const saveTemplateData = useCallback(async (data: TemplateFolder) => {
+  try {
+    const updatedTemplate: any = await SaveUpdatedCode(id, data);
+
+    let templateToSet: TemplateFolder = { folderName: "Root", items: [] };
+
+    if (updatedTemplate && typeof updatedTemplate === "object") {
+      if ("folderName" in updatedTemplate && Array.isArray(updatedTemplate.items)) {
+        templateToSet = { folderName: updatedTemplate.folderName, items: updatedTemplate.items };
+      } else if ("content" in updatedTemplate) {
+        let parsed = updatedTemplate.content;
+
+        if (typeof parsed === "string") {
+          try { parsed = JSON.parse(parsed); } catch {}
+        }
+
+        if (Array.isArray(parsed)) {
+          templateToSet = { folderName: "Root", items: parsed };
+        } else if (parsed?.items && Array.isArray(parsed.items)) {
+          templateToSet = { folderName: parsed.folderName || "Root", items: parsed.items };
+        }
+      }
     }
-  },[id])
+
+    setTemplateData(templateToSet);
+    toast.success("Changes saved successfully");
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to save changes");
+    throw error;
+  }
+}, [id]);
 
 
   useEffect(()=>{

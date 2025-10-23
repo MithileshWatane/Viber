@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { create } from "zustand";
 import { toast } from "sonner";
 
@@ -74,7 +75,6 @@ interface FileExplorerState {
   updateFileContent: (fileId: string, content: string) => void;
 }
 
-// @ts-expect-error
 export const useFileExplorer = create<FileExplorerState>((set, get) => ({
   templateData: null,
   playgroundId: "",

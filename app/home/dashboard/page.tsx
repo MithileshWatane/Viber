@@ -20,11 +20,17 @@ const Page = async () => {
           <EmptyState />
         ) : (
           <ProjectTable
-            projects={playgrounds || []}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              projects={(playgrounds || []).map((p: any) => ({
+                ...p,
+                description: p.description ?? "", // ensure it's always a string
+              }))}
             onDeleteProject={deleteProjectById}
             onUpdateProject={editProjectById}
-            onDuplicateProject={duplicateProjectById}
-          />
+            onDuplicateProject={async (id: string) => {
+            await duplicateProjectById(id); // we don’t care about its return value
+          }}
+        />
         )}
       </div>
     </div>

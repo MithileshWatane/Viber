@@ -5,6 +5,8 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import type { Components } from "react-markdown";
+
 
 import {
     Loader2,
@@ -48,6 +50,30 @@ import {
 import "katex/dist/katex.min.css";
 import Image from "next/image";
 import Stream from "stream";
+
+
+const components: Components = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  code({ node, inline, className, children, ...props }: any) {
+    if (inline) {
+      return (
+        <code className="bg-zinc-800 px-1 py-0.5 rounded text-sm" {...props}>
+          {children}
+        </code>
+      );
+    }
+    return (
+      <div className="bg-zinc-800 rounded-lg p-4 my-4">
+        <pre className="text-sm text-zinc-100 overflow-x-auto">
+          <code className={className} {...props}>
+            {children}
+          </code>
+        </pre>
+      </div>
+    );
+  },
+};
+
 
 interface ChatMessage {
     role: "user" | "assistant";
@@ -354,6 +380,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                         {/* Enhanced Controls */}
                         <Tabs
                             value={chatMode}
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             onValueChange={(value) => setChatMode(value as any)}
                             className="px-6"
                         >
@@ -508,30 +535,14 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                             )}
 
                                             <div className="prose prose-invert prose-sm max-w-none">
-                                                <ReactMarkdown
-                                                    remarkPlugins={[remarkGfm, remarkMath]}
-                                                    rehypePlugins={[rehypeKatex]}
-                                                    components={{
-                                                        code: ({ children, className, inline }) => {
-                                                            if (inline) {
-                                                                return (
-                                                                    <code className="bg-zinc-800 px-1 py-0.5 rounded text-sm">
-                                                                        {children}
-                                                                    </code>
-                                                                );
-                                                            }
-                                                            return (
-                                                                <div className="bg-zinc-800 rounded-lg p-4 my-4">
-                                                                    <pre className="text-sm text-zinc-100 overflow-x-auto">
-                                                                        <code className={className}>{children}</code>
-                                                                    </pre>
-                                                                </div>
-                                                            );
-                                                        },
-                                                    }}
-                                                >
-                                                    {msg.content}
-                                                </ReactMarkdown>
+                                        <ReactMarkdown
+                                            remarkPlugins={[remarkGfm, remarkMath]}
+                                            rehypePlugins={[rehypeKatex]}
+                                            components={components}
+                                            >
+                                            {msg.content}
+                                         </ReactMarkdown>
+
                                             </div>
 
                                             {/* Message actions */}
@@ -618,6 +629,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                             handleSendMessage(e as any);
                                         }
                                     }}
