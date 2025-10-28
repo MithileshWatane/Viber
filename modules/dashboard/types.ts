@@ -11,7 +11,7 @@ export interface User {
   export interface Project {
     id: string
     title: string
-    description: string
+    description: string | null; // ✅ Make nullable to match Prisma
     template: string
     createdAt: Date
     updatedAt: Date
@@ -19,4 +19,3 @@ export interface User {
     user: User
     Starmark: { isMarked: boolean }[]
   }
-  
