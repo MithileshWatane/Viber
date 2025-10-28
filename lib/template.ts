@@ -1,5 +1,5 @@
 export const templatePaths = {
-  REACT: "/vibecode-starters/react-ts",
+  REACT: "https://viber-templates.vercel.app/",
   NEXTJS: "/vibecode-starters/nextjs",
   EXPRESS: "/vibecode-starters/express-simple",
   VUE: "/vibecode-starters/vue",
